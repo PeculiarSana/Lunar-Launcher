@@ -26,6 +26,13 @@ public class InputManager : MonoBehaviour
                     case "TargettingBar":
                         target.GetComponent<I_TargettingBar>().Interact();
                         break;
+                    case "PropulsionControl":
+                        target.GetComponent<I_PropulsionControl>().Interact();
+                        EventManager.SendChangingPropulsion(true);
+                        break;
+                    case "ArmingControl":
+                        target.GetComponent<I_ArmingControl>().Interact();
+                        break;
                 }
             }
                 
@@ -57,6 +64,15 @@ public class InputManager : MonoBehaviour
                         ele.lastMousePos = Mouse.current.position.ReadValue().y;
                     }
                     ele.Interact();
+                    break;
+                case "VelocityControl":
+                    I_VelocityControl vel = target.GetComponent<I_VelocityControl>();
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        vel.firstMousePos = Mouse.current.position.ReadValue().y;
+                        vel.lastMousePos = Mouse.current.position.ReadValue().y;
+                    }
+                    vel.Interact();
                     break;
             }
     }

@@ -13,7 +13,7 @@ public class I_AzimuthControl : MonoBehaviour
     public Vector3 firstSliderPos;
     [HideInInspector]
     public float firstMousePos, lastMousePos;
-    public float sliderMin, sliderMax, startingPosition;
+    public float sliderMin, sliderMax, startingPosition, slideMultiplier;
 
     float mouseDistance = 0;
 
@@ -28,7 +28,7 @@ public class I_AzimuthControl : MonoBehaviour
         if (Mouse.current.position.ReadValue().x != lastMousePos)
         {
             mouseDistance = Mouse.current.position.ReadValue().x - lastMousePos;
-            transform.localPosition = new Vector3(0, 0.5f, Mathf.Clamp(transform.localPosition.z + (mouseDistance / 500), sliderMin, sliderMax));
+            transform.localPosition = new Vector3(0, 0.5f, Mathf.Clamp(transform.localPosition.z + (mouseDistance / (100 * slideMultiplier)), sliderMin, sliderMax));
         }
 
         EventManager.SendAzimuth(GetTarget());

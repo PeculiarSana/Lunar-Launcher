@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // TODO : Clamp control's maximum velocity to smooth it out, lower mouse speed when interacting with it
-//Elevation is a value between x = 0 and x = 90
+//Velocity is a value between 2 and 20
 
-public class I_ElevationControl : MonoBehaviour
+public class I_VelocityControl : MonoBehaviour
 {
     [HideInInspector]
     public Vector3 firstSliderPos;
@@ -18,8 +18,8 @@ public class I_ElevationControl : MonoBehaviour
 
     private void Start()
     {
-        transform.localPosition = new Vector3(0, 0.5f, sliderMin + startingPosition / 112.5f);
-        EventManager.SendElevation(GetTarget());
+        transform.localPosition = new Vector3(0, 0.5f, sliderMin + startingPosition / 22.5f);
+        EventManager.SendVelocity(GetTarget());
     }
 
     public void Interact()
@@ -30,7 +30,7 @@ public class I_ElevationControl : MonoBehaviour
             transform.localPosition = new Vector3(0, 0.5f, Mathf.Clamp(transform.localPosition.z + (mouseDistance / (100 * slideMultiplier)), sliderMin, sliderMax));
         }
 
-        EventManager.SendElevation(GetTarget());
+        EventManager.SendVelocity(GetTarget());
 
         lastMousePos = Mouse.current.position.ReadValue().y;
         mouseDistance = 0;
@@ -39,7 +39,7 @@ public class I_ElevationControl : MonoBehaviour
     public float GetTarget()
     {
         float distance = -(sliderMin - transform.localPosition.z);
-        float target = distance * 112.5f;
+        float target = 2 + distance * 22.5f;
         return target;
     }
 }

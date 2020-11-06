@@ -59,3 +59,7 @@ sysinfo.txt
 crashlytics-build.properties
 
 Assets/TextMesh Pro/
+Assets/Plugins/
+Assets/Scripts/TextMesh Pro/
+Assets/Scripts/TextMesh Pro.meta
+Assets/Plugins.meta

@@ -7,6 +7,9 @@ TagManager:
   - AzimuthControl
   - ElevationControl
   - TargettingBar
+  - PropulsionControl
+  - VelocityControl
+  - ArmingControl
   layers:
   - Default
   - TransparentFX
