@@ -157,7 +157,7 @@ public class GunManager : MonoBehaviour
             PayloadPoint.transform.position, 
             Quaternion.Euler(new Vector3(Elevator.transform.rotation.eulerAngles.x + 90, Translator.transform.rotation.eulerAngles.y, 0)), 
             null);
-        payload.GetComponent<PayloadManager>().velocity = f_Velocity * 1000;
+        payload.GetComponent<PayloadManager>().velocity = f_Velocity * 20;
         yield return new WaitForSeconds(1);
     }
 
