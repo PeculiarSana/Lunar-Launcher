@@ -11,5 +11,12 @@ public class PayloadManager : MonoBehaviour
     void FixedUpdate()
     {
         transform.Translate(new Vector3(0, (velocity * velocityScale) / (1.0f/Time.deltaTime), 0));
+        StartCoroutine(Remove());
+    }
+
+    IEnumerator Remove()
+    {
+        yield return new WaitForSeconds(22 - velocity/1000);
+        Destroy(gameObject);
     }
 }
