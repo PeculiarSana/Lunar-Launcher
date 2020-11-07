@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,7 +9,7 @@ using UnityEngine.InputSystem.Controls;
 
 public class InputManager : MonoBehaviour
 {
-    GameObject target;
+    GameObject mouseAbove, target;
 
     int rayMask = 1 << 10;
 
@@ -18,6 +19,7 @@ public class InputManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, rayMask))
         {
+            mouseAbove = hit.collider.gameObject;
             if (Input.GetMouseButtonDown(0))
             {
                 target = hit.collider.gameObject;
@@ -33,10 +35,15 @@ public class InputManager : MonoBehaviour
                     case "ArmingControl":
                         target.GetComponent<I_ArmingControl>().Interact();
                         break;
+                    case "FireButton":
+                        target.GetComponent<I_Fire>().Interact();
+                        break;
                 }
             }
-                
+
         }
+        else
+            mouseAbove = null;
         if (target != null && Input.GetMouseButtonUp(0))
         {
             target = null;
@@ -75,5 +82,13 @@ public class InputManager : MonoBehaviour
                     vel.Interact();
                     break;
             }
+    }
+
+    public GameObject GetMouseTarget()
+    {
+        if (mouseAbove != null)
+            return mouseAbove;
+        else
+            return null;
     }
 }

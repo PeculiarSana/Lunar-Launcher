@@ -10,10 +10,14 @@ using UnityEngine;
 public class GunManager : MonoBehaviour
 {
     public float translationSpeed, elevationSpeed, armingTime;
+    [HideInInspector]
+    public bool b_AdjustingTarget;
 
-    public GameObject Translator, Elevator;
+    public GameObject Translator, Elevator, PayloadPoint;
+    public PayloadManager payloadPrefab;
 
     float f_TargetAzimuth, f_TargetElevation, f_Velocity;
+    Vector3 v_LastAzimuth, v_LastElevation;
     bool b_Propulsion, b_ChangingPropulsion, b_Arming, b_Armed, b_ReadyToFire;
     Animator animator;
 
@@ -34,6 +38,7 @@ public class GunManager : MonoBehaviour
         EventManager.Arming += Arming;
         EventManager.Armed += Armed;
         EventManager.ReadyToFire += ReadyToFire;
+        EventManager.Fire += Fire;
     }
 
     void SetAzimuth(float value)
@@ -107,8 +112,6 @@ public class GunManager : MonoBehaviour
     void Armed(bool value)
     {
         b_Armed = value;
-        if (b_Armed == false)
-            EventManager.SendReadyToFire(false);
     }
 
     ///<summary>Returns a bool to indicate if the Gun is armed
@@ -121,7 +124,6 @@ public class GunManager : MonoBehaviour
     void ChangingPropulsion(bool b)
     {
         b_ChangingPropulsion = b;
-        EventManager.SendReadyToFire(false);
     }
 
     ///<summary>Returns a bool to indicate if the Gun is changing propulsion mode, tracked by its animation
@@ -143,25 +145,55 @@ public class GunManager : MonoBehaviour
         return b_ReadyToFire;
     }
 
+    void Fire()
+    {
+        StartCoroutine(FireEffectTimer());
+    }
+
+    IEnumerator FireEffectTimer()
+    {
+        GameObject payload = Instantiate(
+            payloadPrefab.gameObject, 
+            PayloadPoint.transform.position, 
+            Quaternion.Euler(new Vector3(Elevator.transform.rotation.eulerAngles.x + 90, Translator.transform.rotation.eulerAngles.y, 0)), 
+            null);
+        payload.GetComponent<PayloadManager>().velocity = f_Velocity * 1000;
+        yield return new WaitForSeconds(1);
+    }
+
     void Update()
     {
+        //Elevation and Azimuth run checks to compare their last rotation to their current, to check if the gun is currently moving or not
         //Translation - Azimuth
         Quaternion transRot = Quaternion.Euler(new Vector3(Translator.transform.rotation.eulerAngles.x, f_TargetAzimuth, Translator.transform.rotation.eulerAngles.z));
         Translator.transform.rotation = Quaternion.RotateTowards(Translator.transform.rotation, transRot, translationSpeed * Time.deltaTime);
+        if (Translator.transform.rotation.eulerAngles == v_LastAzimuth)
+            b_AdjustingTarget = false;
+        else
+            b_AdjustingTarget = true;
+        v_LastAzimuth = Translator.transform.rotation.eulerAngles;
 
         //Elevation
         Quaternion eleRot = Quaternion.Euler(new Vector3(-f_TargetElevation, Elevator.transform.rotation.eulerAngles.y, Elevator.transform.rotation.eulerAngles.z));
         Elevator.transform.rotation = Quaternion.RotateTowards(Elevator.transform.rotation, eleRot, elevationSpeed * Time.deltaTime);
+        if (Elevator.transform.rotation.eulerAngles == v_LastElevation)
+            b_AdjustingTarget = false;
+        else
+            b_AdjustingTarget = true;
+        v_LastElevation = Elevator.transform.rotation.eulerAngles;
 
+        //-----------
+
+        //Checks to see if the propulsion animation is running to know when the gun is done switching
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
         {
             b_ChangingPropulsion = false;
         }
 
         //Checks to run to see if the Gun is ready to fire
-            if (b_Armed && !b_ChangingPropulsion)
-        {
+        if (b_Armed && !b_ChangingPropulsion && !b_AdjustingTarget)
             EventManager.SendReadyToFire(true);
-        }
+        else
+            EventManager.SendReadyToFire(false);
     }
 }

@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class D_InfoMenu : MonoBehaviour
 {
     public bool defaultState;
+    public InputManager inputManager;
     public GunManager gunManager;
-    public TextMeshProUGUI t_Azimuth, t_Elevation, t_Velocity, t_Propulsion, t_ArmedStatus, t_ReadyToFire;
+    public TextMeshProUGUI t_Azimuth, t_AzimuthTarget, t_Elevation, t_ElevationTarget, t_Velocity, t_AdjustingTarget, t_Propulsion, t_ArmedStatus, t_ReadyToFire;
+    public TextMeshProUGUI t_MousePosition, t_MouseTarget;
 
-    float azimuth, elevation, velocity;
-    bool propulsion, arming, armed, readyToFire;
+    float f_Azimuth, f_AzimuthTarget, f_Elevation, f_ElevationTarget, f_Velocity;
+    bool b_Propulsion, b_Arming, b_Armed, b_ReadyToFire;
 
     private void Start()
     {
@@ -19,34 +23,51 @@ public class D_InfoMenu : MonoBehaviour
 
     void Update()
     {
-        azimuth = gunManager.GetAzimuth();
-        elevation = gunManager.GetElevation();
-        velocity = gunManager.GetVelocity();
-        propulsion = gunManager.GetPropulsion();
-        arming = gunManager.GetArming();
-        armed = gunManager.GetArmed();
-        readyToFire = gunManager.GetReadyToFire();
+        f_Azimuth = gunManager.GetAzimuth();
+        EventManager.Azimuth += GetAzimuth;
+        f_Elevation = gunManager.GetElevation();
+        EventManager.Elevation += GetElevation;
+        f_Velocity = gunManager.GetVelocity();
+        b_Propulsion = gunManager.GetPropulsion();
+        b_Arming = gunManager.GetArming();
+        b_Armed = gunManager.GetArmed();
+        b_ReadyToFire = gunManager.GetReadyToFire();
 
 
-        t_Azimuth.text = "Azimuth: " + azimuth;
-        t_Elevation.text = "Elevation: " + elevation;
-        t_Velocity.text = "Velocity: " + velocity + "km/s";
+        t_Azimuth.text = "Azimuth: " + f_Azimuth;
+        t_AzimuthTarget.text = "Target: " + f_AzimuthTarget;
+        t_Elevation.text = "Elevation: " + f_Elevation;
+        t_ElevationTarget.text = "Target: " + f_ElevationTarget;
+        t_AdjustingTarget.text = "Adjusting Target: " + gunManager.b_AdjustingTarget;
+        t_Velocity.text = "Velocity: " + f_Velocity + "km/s";
 
-        if (propulsion)
+        if (b_Propulsion)
             t_Propulsion.text = "Propulsion Mode: Magnetic" + " - Switching: " + gunManager.GetChangingPropulsion();
         else
-        {
+            t_Propulsion.text = "Propulsion Mode: Light-gas" + " - Switching: " + gunManager.GetChangingPropulsion();  
 
-        }
-            t_Propulsion.text = "Propulsion Mode: Light-gas" + " - Switching: " + gunManager.GetChangingPropulsion();
-
-        if (armed)
+        if (b_Armed)
             t_ArmedStatus.text = "Arming Status: " + "Armed";
-        else if (arming)
+        else if (b_Arming)
             t_ArmedStatus.text = "Arming Status: " + "Arming...";
         else
             t_ArmedStatus.text = "Arming Status: " + "Not Armed";
 
-        t_ReadyToFire.text = "Ready to fire: " + readyToFire;
+        t_ReadyToFire.text = "Ready to fire: " + b_ReadyToFire;
+
+        //-------------------------------------------------------
+
+        t_MousePosition.text = "Mouse Position: " + Mouse.current.position.ReadValue();
+        t_MouseTarget.text = inputManager.GetMouseTarget() != null ? "Mouse Target: " + inputManager.GetMouseTarget().name : "Mouse Target: null";
+    }
+
+    void GetAzimuth(float f)
+    {
+        f_AzimuthTarget = f;
+    }
+
+    void GetElevation(float f)
+    {
+        f_ElevationTarget = f;
     }
 }

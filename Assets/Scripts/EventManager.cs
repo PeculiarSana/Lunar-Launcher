@@ -16,6 +16,7 @@ public class EventManager : MonoBehaviour
     public static event ToggleEvent Arming;
     public static event ToggleEvent Armed;
     public static event ToggleEvent ReadyToFire;
+    public static event ButtonEvent Fire;
 
     public static void SendAzimuth(float f)
     {
@@ -63,5 +64,11 @@ public class EventManager : MonoBehaviour
     {
         if (ReadyToFire != null)
             ReadyToFire(b);
+    }
+
+    public static void SendFire()
+    {
+        if (Fire != null)
+            Fire();
     }
 }

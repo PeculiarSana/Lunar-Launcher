@@ -10,6 +10,7 @@ TagManager:
   - PropulsionControl
   - VelocityControl
   - ArmingControl
+  - FireButton
   layers:
   - Default
   - TransparentFX
