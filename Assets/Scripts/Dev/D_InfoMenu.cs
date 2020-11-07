@@ -11,9 +11,11 @@ public class D_InfoMenu : MonoBehaviour
     public InputManager inputManager;
     public GunManager gunManager;
     public TextMeshProUGUI t_Azimuth, t_AzimuthTarget, t_Elevation, t_ElevationTarget, t_Velocity, t_AdjustingTarget, t_Propulsion, t_ArmedStatus, t_ReadyToFire;
+    public TextMeshProUGUI t_FPS;
     public TextMeshProUGUI t_MousePosition, t_MouseTarget;
 
     float f_Azimuth, f_AzimuthTarget, f_Elevation, f_ElevationTarget, f_Velocity;
+    float deltaTime = 0.0f;
     bool b_Propulsion, b_Arming, b_Armed, b_ReadyToFire;
 
     private void Start()
@@ -59,6 +61,11 @@ public class D_InfoMenu : MonoBehaviour
 
         t_MousePosition.text = "Mouse Position: " + Mouse.current.position.ReadValue();
         t_MouseTarget.text = inputManager.GetMouseTarget() != null ? "Mouse Target: " + inputManager.GetMouseTarget().name : "Mouse Target: null";
+
+        deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
+        float msec = deltaTime * 1000.0f;
+        float fps = 1.0f / deltaTime;
+        t_FPS.text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
     }
 
     void GetAzimuth(float f)
