@@ -9,17 +9,18 @@ using UnityEngine.InputSystem;
 
 public class I_AzimuthControl : MonoBehaviour
 {
+    public GlobalVariables _globalVariables;
     [HideInInspector]
     public Vector3 firstSliderPos;
     [HideInInspector]
     public float firstMousePos, lastMousePos;
-    public float sliderMin, sliderMax, startingPosition, slideMultiplier;
+    public float sliderMin, sliderMax, slideMultiplier;
 
     float mouseDistance = 0;
 
     private void Start()
     {
-        transform.localPosition = new Vector3(0, 0.5f, startingPosition / 337.5f);
+        transform.localPosition = new Vector3(0, 0.5f, _globalVariables.azimuth / 337.5f);
         EventManager.SendAzimuth(GetTarget());
     }
 
@@ -28,7 +29,7 @@ public class I_AzimuthControl : MonoBehaviour
         if (Mouse.current.position.ReadValue().x != lastMousePos)
         {
             mouseDistance = Mouse.current.position.ReadValue().x - lastMousePos;
-            transform.localPosition = new Vector3(0, 0.5f, Mathf.Clamp(transform.localPosition.z + (mouseDistance / (100 * slideMultiplier)), sliderMin, sliderMax));
+            transform.localPosition = new Vector3(0, 0.5f, Mathf.Clamp(transform.localPosition.z + (mouseDistance / (100 * _globalVariables.azimuthVariables.slideScale)), sliderMin, sliderMax));
         }
 
         EventManager.SendAzimuth(GetTarget());

@@ -8,17 +8,18 @@ using UnityEngine.InputSystem;
 
 public class I_VelocityControl : MonoBehaviour
 {
+    public GlobalVariables _globalVariables;
     [HideInInspector]
     public Vector3 firstSliderPos;
     [HideInInspector]
     public float firstMousePos, lastMousePos;
-    public float sliderMin, sliderMax, startingPosition, slideMultiplier;
+    public float sliderMin, sliderMax, slideMultiplier;
 
     float mouseDistance = 0;
 
     private void Start()
     {
-        transform.localPosition = new Vector3(0, 0.5f, sliderMin + startingPosition / 22.5f);
+        transform.localPosition = new Vector3(0, 0.5f, sliderMin + (_globalVariables.velocity - 2) / 22.5f);
         EventManager.SendVelocity(GetTarget());
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class D_AzimuthText : MonoBehaviour
 {
-    public GunManager gunManager;
+    public CannonManager gunManager;
 
     float targetAzimuth;
     float currentAzimuth;

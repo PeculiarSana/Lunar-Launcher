@@ -9,7 +9,7 @@ public class D_InfoMenu : MonoBehaviour
 {
     public bool defaultState;
     public InputManager inputManager;
-    public GunManager gunManager;
+    public CannonManager gunManager;
     public TextMeshProUGUI t_Azimuth, t_AzimuthTarget, t_Elevation, t_ElevationTarget, t_Velocity, t_AdjustingTarget, t_Propulsion, t_ArmedStatus, t_ReadyToFire;
     public TextMeshProUGUI t_FPS;
     public TextMeshProUGUI t_MousePosition, t_MouseTarget;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class D_ElevationText : MonoBehaviour
 {
-    public GunManager gunManager;
+    public CannonManager gunManager;
 
     float targetElevation;
     float currentElevation;

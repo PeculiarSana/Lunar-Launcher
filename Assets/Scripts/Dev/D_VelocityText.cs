@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class D_VelocityText : MonoBehaviour
 {
-    public GunManager gunManager;
-
     float velocity;
 
     private void OnEnable()

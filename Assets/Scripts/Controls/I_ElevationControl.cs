@@ -8,17 +8,18 @@ using UnityEngine.InputSystem;
 
 public class I_ElevationControl : MonoBehaviour
 {
+    public GlobalVariables _globalVariables;
     [HideInInspector]
     public Vector3 firstSliderPos;
     [HideInInspector]
     public float firstMousePos, lastMousePos;
-    public float sliderMin, sliderMax, startingPosition, slideMultiplier;
+    public float sliderMin, sliderMax;
 
     float mouseDistance = 0;
 
     private void Start()
     {
-        transform.localPosition = new Vector3(0, 0.5f, sliderMin + startingPosition / 112.5f);
+        transform.localPosition = new Vector3(0, 0.5f, sliderMin + _globalVariables.elevation / 112.5f);
         EventManager.SendElevation(GetTarget());
     }
 
@@ -27,7 +28,7 @@ public class I_ElevationControl : MonoBehaviour
         if (Mouse.current.position.ReadValue().y != lastMousePos)
         {
             mouseDistance = Mouse.current.position.ReadValue().y - lastMousePos;
-            transform.localPosition = new Vector3(0, 0.5f, Mathf.Clamp(transform.localPosition.z + (mouseDistance / (100 * slideMultiplier)), sliderMin, sliderMax));
+            transform.localPosition = new Vector3(0, 0.5f, Mathf.Clamp(transform.localPosition.z + (mouseDistance / (100 * _globalVariables.elevationVariables.slideScale)), sliderMin, sliderMax));
         }
 
         EventManager.SendElevation(GetTarget());

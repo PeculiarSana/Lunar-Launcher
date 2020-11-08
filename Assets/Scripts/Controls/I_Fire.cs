@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class I_Fire : MonoBehaviour
 {
-    public GunManager gunManager;
+    public CannonManager gunManager;
     public void Interact()
     {
         if (gunManager.GetReadyToFire())

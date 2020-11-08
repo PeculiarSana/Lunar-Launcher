@@ -6,7 +6,7 @@ public class ReadyToFireIndicator : MonoBehaviour
 {
     public Light bulb;
     public Material on, off;
-    public GunManager gunManager;
+    public CannonManager gunManager;
 
     private void Start()
     {

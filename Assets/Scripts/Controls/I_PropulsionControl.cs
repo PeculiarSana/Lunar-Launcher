@@ -10,18 +10,41 @@ using UnityEngine.InputSystem;
 [ExecuteInEditMode]
 public class I_PropulsionControl : MonoBehaviour
 {
-    public bool defaultState, currentState;
+    public GlobalVariables _globalVariables;
+    public bool currentState;
     public float onPos, offPos;
     public GameObject flick;
+    public GameObject[] indicators;
+    public Material[] indicatorMats;
+    public CannonManager gunManager;
     private void Start()
     {
-        StateSwitch(defaultState);
+        StateSwitch(_globalVariables.propulsion);
     }
 
     private void Update()
     {
-        if (currentState != defaultState && !Application.isPlaying)
-            StateSwitch(defaultState);
+        if (currentState != _globalVariables.propulsion && !Application.isPlaying)
+            StateSwitch(_globalVariables.propulsion);
+
+        if (currentState && !gunManager.GetChangingPropulsion())
+        {
+            indicators[0].GetComponent<MeshRenderer>().material = indicatorMats[0];
+            indicators[1].GetComponent<MeshRenderer>().material = indicatorMats[1];
+            indicators[2].GetComponent<MeshRenderer>().material = indicatorMats[1];
+        }
+        else if (!currentState && !gunManager.GetChangingPropulsion())
+        {
+            indicators[0].GetComponent<MeshRenderer>().material = indicatorMats[1];
+            indicators[1].GetComponent<MeshRenderer>().material = indicatorMats[0];
+            indicators[2].GetComponent<MeshRenderer>().material = indicatorMats[1];
+        }
+        else
+        {
+            indicators[0].GetComponent<MeshRenderer>().material = indicatorMats[1];
+            indicators[1].GetComponent<MeshRenderer>().material = indicatorMats[1];
+            indicators[2].GetComponent<MeshRenderer>().material = indicatorMats[2];
+        }
     }
     public void Interact()
     {
@@ -38,6 +61,6 @@ public class I_PropulsionControl : MonoBehaviour
         flick.transform.localRotation = Quaternion.Euler(new Vector3(pos, 0, 0));
         currentState = b;
         if (Application.isPlaying)
-            EventManager.SendPropulsion(b);
+            EventManager.SendPropulsion(b);  
     }
 }

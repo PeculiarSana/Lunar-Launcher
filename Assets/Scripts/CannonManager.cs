@@ -7,13 +7,13 @@ using UnityEngine;
 //Manages all parameters of the Gun
 //Every relevant event has a Get and Set
 
-public class GunManager : MonoBehaviour
+public class CannonManager : MonoBehaviour
 {
-    public float translationSpeed, elevationSpeed, armingTime;
+    public GlobalVariables _globalVariables;
     [HideInInspector]
     public bool b_AdjustingTarget;
 
-    public GameObject Translator, Elevator, PayloadPoint;
+    public Transform Translator, Elevator, PayloadPoint;
     public PayloadManager payloadPrefab;
 
     float f_TargetAzimuth, f_TargetElevation, f_Velocity;
@@ -25,6 +25,10 @@ public class GunManager : MonoBehaviour
     {
         b_ChangingPropulsion = true;
         animator = GetComponent<Animator>();
+
+        //Start at default positions
+        Translator.rotation = Quaternion.Euler(0, _globalVariables.azimuth, 0);
+        Elevator.localRotation = Quaternion.Euler(-_globalVariables.elevation, 0, 0);
     }
 
     //Register to events coming from interactable objects
@@ -49,7 +53,7 @@ public class GunManager : MonoBehaviour
     ///</summary>
     public float GetAzimuth()
     {
-        return Translator.transform.localRotation.eulerAngles.y;
+        return Translator.localRotation.eulerAngles.y;
     }
 
     void SetElevation(float value)
@@ -61,7 +65,7 @@ public class GunManager : MonoBehaviour
     ///</summary>
     public float GetElevation()
     {
-        return -(Elevator.transform.localRotation.eulerAngles.x - 360);
+        return -(Elevator.localRotation.eulerAngles.x - 360);
     }
 
     void Propulsion(bool value)
@@ -91,7 +95,7 @@ public class GunManager : MonoBehaviour
     {
         b_Arming = value;
         if (b_Arming)
-            StartCoroutine(Arm(armingTime));
+            StartCoroutine(Arm(_globalVariables.armingTime));
         else
             EventManager.SendArmed(false);
     }
@@ -154,8 +158,8 @@ public class GunManager : MonoBehaviour
     {
         GameObject payload = Instantiate(
             payloadPrefab.gameObject, 
-            PayloadPoint.transform.position, 
-            Quaternion.Euler(new Vector3(Elevator.transform.rotation.eulerAngles.x + 90, Translator.transform.rotation.eulerAngles.y, 0)), 
+            PayloadPoint.position, 
+            Quaternion.Euler(new Vector3(Elevator.rotation.eulerAngles.x + 90, Translator.rotation.eulerAngles.y, 0)), 
             null);
         payload.GetComponent<PayloadManager>().velocity = f_Velocity * 20;
         yield return new WaitForSeconds(1);
@@ -165,22 +169,25 @@ public class GunManager : MonoBehaviour
     {
         //Elevation and Azimuth run checks to compare their last rotation to their current, to check if the gun is currently moving or not
         //Translation - Azimuth
-        Quaternion transRot = Quaternion.Euler(new Vector3(Translator.transform.rotation.eulerAngles.x, f_TargetAzimuth, Translator.transform.rotation.eulerAngles.z));
-        Translator.transform.rotation = Quaternion.RotateTowards(Translator.transform.rotation, transRot, translationSpeed * Time.deltaTime);
-        if (Translator.transform.rotation.eulerAngles == v_LastAzimuth)
+        Quaternion transRot = Quaternion.Euler(new Vector3(0, f_TargetAzimuth, 0));
+        Translator.rotation = Quaternion.RotateTowards(Translator.rotation, transRot, _globalVariables.translationSpeed * Time.deltaTime);
+
+        if (Translator.rotation.eulerAngles == v_LastAzimuth)
             b_AdjustingTarget = false;
         else
             b_AdjustingTarget = true;
-        v_LastAzimuth = Translator.transform.rotation.eulerAngles;
+        v_LastAzimuth = Translator.rotation.eulerAngles;
 
         //Elevation
-        Quaternion eleRot = Quaternion.Euler(new Vector3(-f_TargetElevation, Elevator.transform.rotation.eulerAngles.y, Elevator.transform.rotation.eulerAngles.z));
-        Elevator.transform.rotation = Quaternion.RotateTowards(Elevator.transform.rotation, eleRot, elevationSpeed * Time.deltaTime);
-        if (Elevator.transform.rotation.eulerAngles == v_LastElevation)
+        float target = Mathf.Clamp(f_TargetElevation, 0.01f, 90.0f);
+        Quaternion eleRot = Quaternion.Euler(new Vector3(-target, Elevator.rotation.eulerAngles.y, Elevator.rotation.eulerAngles.z));
+        Elevator.rotation = Quaternion.RotateTowards(Elevator.rotation, eleRot, _globalVariables.elevationSpeed * Time.deltaTime);
+
+        if (Elevator.rotation.eulerAngles == v_LastElevation)
             b_AdjustingTarget = false;
         else
             b_AdjustingTarget = true;
-        v_LastElevation = Elevator.transform.rotation.eulerAngles;
+        v_LastElevation = Elevator.rotation.eulerAngles;
 
         //-----------
 
