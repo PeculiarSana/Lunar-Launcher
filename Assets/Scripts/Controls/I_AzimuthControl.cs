@@ -29,7 +29,7 @@ public class I_AzimuthControl : MonoBehaviour
         if (Mouse.current.position.ReadValue().x != lastMousePos)
         {
             mouseDistance = Mouse.current.position.ReadValue().x - lastMousePos;
-            transform.localPosition = new Vector3(0, 0.5f, Mathf.Clamp(transform.localPosition.z + (mouseDistance / (100 * _globalVariables.azimuthVariables.slideScale)), sliderMin, sliderMax));
+            transform.localPosition = new Vector3(0, 0.5f, Mathf.Clamp(transform.localPosition.z + (mouseDistance / (100 * _globalVariables.azimuthSliderScale)), sliderMin, sliderMax));
         }
 
         EventManager.SendAzimuth(GetTarget());

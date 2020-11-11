@@ -9,7 +9,7 @@ public class D_InfoMenu : MonoBehaviour
 {
     public bool defaultState;
     public InputManager inputManager;
-    public CannonManager gunManager;
+    public GameManager _gm;
     public TextMeshProUGUI t_Azimuth, t_AzimuthTarget, t_Elevation, t_ElevationTarget, t_Velocity, t_AdjustingTarget, t_Propulsion, t_ArmedStatus, t_ReadyToFire;
     public TextMeshProUGUI t_FPS;
     public TextMeshProUGUI t_MousePosition, t_MouseTarget;
@@ -25,28 +25,28 @@ public class D_InfoMenu : MonoBehaviour
 
     void Update()
     {
-        f_Azimuth = gunManager.GetAzimuth();
+        f_Azimuth = _gm.cannonManager.GetAzimuth();
         EventManager.Azimuth += GetAzimuth;
-        f_Elevation = gunManager.GetElevation();
+        f_Elevation = _gm.cannonManager.GetElevation();
         EventManager.Elevation += GetElevation;
-        f_Velocity = gunManager.GetVelocity();
-        b_Propulsion = gunManager.GetPropulsion();
-        b_Arming = gunManager.GetArming();
-        b_Armed = gunManager.GetArmed();
-        b_ReadyToFire = gunManager.GetReadyToFire();
+        f_Velocity = _gm.cannonManager.GetVelocity();
+        b_Propulsion = _gm.cannonManager.GetPropulsion();
+        b_Arming = _gm.cannonManager.GetArming();
+        b_Armed = _gm.cannonManager.GetArmed();
+        b_ReadyToFire = _gm.cannonManager.GetReadyToFire();
 
 
         t_Azimuth.text = "Azimuth: " + f_Azimuth;
         t_AzimuthTarget.text = "Target: " + f_AzimuthTarget;
         t_Elevation.text = "Elevation: " + f_Elevation;
         t_ElevationTarget.text = "Target: " + f_ElevationTarget;
-        t_AdjustingTarget.text = "Adjusting Target: " + gunManager.b_AdjustingTarget;
+        t_AdjustingTarget.text = "Adjusting Target: " + _gm.cannonManager.b_AdjustingTarget;
         t_Velocity.text = "Velocity: " + f_Velocity + "km/s";
 
         if (b_Propulsion)
-            t_Propulsion.text = "Propulsion Mode: Magnetic" + " - Switching: " + gunManager.GetChangingPropulsion();
+            t_Propulsion.text = "Propulsion Mode: Magnetic" + " - Switching: " + _gm.cannonManager.GetChangingPropulsion();
         else
-            t_Propulsion.text = "Propulsion Mode: Light-gas" + " - Switching: " + gunManager.GetChangingPropulsion();  
+            t_Propulsion.text = "Propulsion Mode: Light-gas" + " - Switching: " + _gm.cannonManager.GetChangingPropulsion();  
 
         if (b_Armed)
             t_ArmedStatus.text = "Arming Status: " + "Armed";
@@ -70,11 +70,11 @@ public class D_InfoMenu : MonoBehaviour
 
     void GetAzimuth(float f)
     {
-        f_AzimuthTarget = f;
+        f_AzimuthTarget = Mathf.Round(f);
     }
 
     void GetElevation(float f)
     {
-        f_ElevationTarget = f;
+        f_ElevationTarget = Mathf.Round(f);
     }
 }

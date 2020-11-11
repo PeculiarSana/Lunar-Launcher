@@ -47,7 +47,7 @@ public class CannonManager : MonoBehaviour
 
     void SetAzimuth(float value)
     {
-        f_TargetAzimuth = value;
+        f_TargetAzimuth = Mathf.Round(value);
     }
     ///<summary>Returns the current y rotation of the Translator
     ///</summary>
@@ -58,7 +58,7 @@ public class CannonManager : MonoBehaviour
 
     void SetElevation(float value)
     {
-        f_TargetElevation = value;
+        f_TargetElevation = Mathf.Round(value);
     }
 
     ///<summary>Returns the current x rotation of the Elevator, adjusted to fit between 0 and 90

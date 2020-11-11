@@ -9,15 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebe59bc7e869ae740b467fd4c18dec77, type: 3}
-  m_Name: Global Variables
+  m_Script: {fileID: 11500000, guid: cffc41bd42509f24894e149a59cd6d7e, type: 3}
+  m_Name: Test Job
   m_EditorClassIdentifier: 
-  azimuth: 0
-  elevation: 0
-  armingTime: 2
-  translationSpeed: 4
-  elevationSpeed: 2.8
-  velocity: 2
-  propulsion: 0
-  azimuthSliderScale: 5
-  elevationSliderScale: 5
+  company: Mars Shipping Ltd.
+  contents: Earth Produce
+  cargoType: 0
+  destination: 0

@@ -28,7 +28,7 @@ public class I_ElevationControl : MonoBehaviour
         if (Mouse.current.position.ReadValue().y != lastMousePos)
         {
             mouseDistance = Mouse.current.position.ReadValue().y - lastMousePos;
-            transform.localPosition = new Vector3(0, 0.5f, Mathf.Clamp(transform.localPosition.z + (mouseDistance / (100 * _globalVariables.elevationVariables.slideScale)), sliderMin, sliderMax));
+            transform.localPosition = new Vector3(0, 0.5f, Mathf.Clamp(transform.localPosition.z + (mouseDistance / (100 * _globalVariables.elevationSliderScale)), sliderMin, sliderMax));
         }
 
         EventManager.SendElevation(GetTarget());

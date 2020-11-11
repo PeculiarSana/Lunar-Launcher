@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("Gun Variables")]
-    public static float gf_TranslationSpeed, gf_ElevationSpeed, gf_ArmingTime;
-    public static bool gb_AdjustingTarget, gb_ChangingPropulsion, gb_ReadyToFire, gb_Arming, gb_Armed;
+    [Header("References")]
+    public CannonManager cannonManager;
 
-    void Start()
-    {
-        
-    }
+    [Header("Job Variables")]
+    public bool hasJob;
+    public JobData[] jobs;
+    public JobData activeJob;
 
     void Update()
     {
-        
+        if (!hasJob)
+        {
+            hasJob = true;
+            activeJob = jobs[Random.Range(0, jobs.Length - 1)];
+            EventManager.SendNewJob(activeJob);
+        }
     }
 }

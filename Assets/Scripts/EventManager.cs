@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
+    public delegate void BasicEvent();
     public delegate void SliderEvent(float value);
-    public delegate void ButtonEvent();
     public delegate void ToggleEvent(bool value);
+    public delegate void JobEvent(JobData job);
 
     public static event SliderEvent Azimuth;
     public static event SliderEvent Elevation;
@@ -16,7 +17,9 @@ public class EventManager : MonoBehaviour
     public static event ToggleEvent Arming;
     public static event ToggleEvent Armed;
     public static event ToggleEvent ReadyToFire;
-    public static event ButtonEvent Fire;
+    public static event BasicEvent Fire;
+
+    public static event JobEvent NewJob;
 
     public static void SendAzimuth(float f)
     {
@@ -70,5 +73,11 @@ public class EventManager : MonoBehaviour
     {
         if (Fire != null)
             Fire();
+    }
+
+    public static void SendNewJob(JobData job)
+    {
+        if (NewJob != null)
+            NewJob(job);
     }
 }
