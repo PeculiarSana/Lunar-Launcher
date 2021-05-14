@@ -15,8 +15,8 @@ MonoBehaviour:
   azimuth: 0
   elevation: 0
   armingTime: 2
-  translationSpeed: 4
-  elevationSpeed: 2.8
+  translationSpeed: 12
+  elevationSpeed: 9.4
   velocity: 2
   propulsion: 0
   azimuthSliderScale: 5

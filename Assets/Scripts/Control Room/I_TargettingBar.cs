@@ -8,5 +8,6 @@ public class I_TargettingBar : MonoBehaviour
     public void Interact()
     {
         transform.parent.GetComponent<Animator>().SetBool("Active", !transform.parent.GetComponent<Animator>().GetBool("Active"));
+        GetComponent<AudioSource>().Play();
     }
 }

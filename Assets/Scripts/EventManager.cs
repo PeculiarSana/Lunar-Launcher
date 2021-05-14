@@ -18,8 +18,9 @@ public class EventManager : MonoBehaviour
     public static event BoolEvent Armed;
     public static event BoolEvent ReadyToFire;
     public static event Event Fire;
+    public static event Event RequestJob;
 
-    public static event JobEvent NewJob;
+    public static event JobEvent SendJob;
     public static event BoolEvent JobResult;
 
     public static void SendAzimuth(float f)
@@ -76,10 +77,16 @@ public class EventManager : MonoBehaviour
             Fire();
     }
 
+    public static void RequestNewJob()
+    {
+        if (RequestJob != null)
+            RequestJob();
+    }
+
     public static void SendNewJob(JobData job)
     {
-        if (NewJob != null)
-            NewJob(job);
+        if (SendJob != null)
+            SendJob(job);
     }
 
     public static void SendJobResult(bool b)

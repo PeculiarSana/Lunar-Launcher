@@ -9,7 +9,9 @@ public class GlobalVariables : ScriptableObject
     public float azimuth;
     public float elevation;
     public float armingTime;
+    [Tooltip("Default 4")]
     public float translationSpeed;
+    [Tooltip("Default 2.8")]
     public float elevationSpeed;
     [Range(2, 20)]
     public float velocity;

@@ -15,4 +15,4 @@ MonoBehaviour:
   company: PewPew Dudes
   contents: Gun
   cargoType: 3
-  destination: 0
+  destination: 3

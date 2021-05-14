@@ -11,15 +11,33 @@ public class UI_JobScreen : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.NewJob += NewJob;
+        EventManager.SendJob += JobInfo;
     }
 
-    void NewJob(JobData job)
+    private void Update()
     {
-        contents.text = $"Contents: {job.contents}";
-        type.text = job.cargoType.ToString();
-        destination.text = $"Destination: {job.destination}";
-        company.text = $"Source: {job.company}";
+        if (_gm.activeJob == null)
+        {
+            JobInfo(null);
+        }
+    }
+
+    void JobInfo(JobData job)
+    {
+        if (job == null)
+        {
+            contents.text = "No active job.";
+            type.text = "";
+            destination.text = "";
+            company.text = "";
+        }
+        else
+        {
+            contents.text = $"Contents: {job.contents}";
+            type.text = job.cargoType.ToString();
+            destination.text = $"Destination: {job.destination}";
+            company.text = $"Source: {job.company}";
+        }
     }
 
     void ToggleJobScreen()

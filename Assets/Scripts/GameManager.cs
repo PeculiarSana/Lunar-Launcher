@@ -9,17 +9,25 @@ public class GameManager : MonoBehaviour
     public Destinations destinationsData;
 
     [Header("Job Variables")]
-    public bool hasJob;
     public JobData[] jobs;
     public JobData activeJob;
 
-    void Update()
+    private void Start()
     {
-        if (!hasJob)
+        if (activeJob == null)
         {
-            hasJob = true;
-            activeJob = jobs[Random.Range(0, jobs.Length)];
-            EventManager.SendNewJob(activeJob);
+            CreateNewJob();
         }
+    }
+
+    public void OnEnable()
+    {
+        EventManager.RequestJob += CreateNewJob;
+    }
+
+    public void CreateNewJob()
+    {
+        activeJob = jobs[Random.Range(0, jobs.Length)];
+        EventManager.SendNewJob(activeJob);
     }
 }
