@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cffc41bd42509f24894e149a59cd6d7e, type: 3}
-  m_Name: Test Job
+  m_Name: Electrics Job
   m_EditorClassIdentifier: 
-  company: Mars Shipping Ltd.
-  contents: Earth Produce
-  cargoType: 0
-  destination: 0
+  company: Banana
+  contents: bPhone 5
+  cargoType: 2
+  destination: 2

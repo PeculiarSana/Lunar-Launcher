@@ -53,7 +53,7 @@ public class CannonManager : MonoBehaviour
     ///</summary>
     public float GetAzimuth()
     {
-        return Translator.localRotation.eulerAngles.y;
+        return Translator.localRotation.eulerAngles.y > 180 ? Translator.localRotation.eulerAngles.y - 360 : Translator.localRotation.eulerAngles.y;
     }
 
     void SetElevation(float value)
@@ -63,10 +63,7 @@ public class CannonManager : MonoBehaviour
 
     ///<summary>Returns the current x rotation of the Elevator, adjusted to fit between 0 and 90
     ///</summary>
-    public float GetElevation()
-    {
-        return -(Elevator.localRotation.eulerAngles.x - 360);
-    }
+    public float GetElevation() => -(Elevator.localRotation.eulerAngles.x - 360);
 
     void Propulsion(bool value)
     {
@@ -76,21 +73,14 @@ public class CannonManager : MonoBehaviour
 
     ///<summary>Returns the currently set Propulsion mode as a boolean, true being 'Magnetic'
     ///</summary>
-    public bool GetPropulsion()
-    {
-        return b_Propulsion;
-    }
-    void SetVelocity(float value)
-    {
-        f_Velocity = value;
-    }
+    public bool GetPropulsion() => b_Propulsion;
+
+    void SetVelocity(float value) => f_Velocity = value;
 
     ///<summary>Returns the currently selected Velocity, as a float from 2 to 20
     ///</summary>
-    public float GetVelocity()
-    {
-        return f_Velocity;
-    }
+    public float GetVelocity() => f_Velocity;
+
     void Arming(bool value)
     {
         b_Arming = value;
@@ -102,10 +92,7 @@ public class CannonManager : MonoBehaviour
 
     ///<summary>Returns a bool indicating if the Gun is arming
     ///</summary>
-    public bool GetArming()
-    {
-        return b_Arming;
-    }
+    public bool GetArming() =>  b_Arming;
 
     IEnumerator Arm(float time)
     {
@@ -113,46 +100,25 @@ public class CannonManager : MonoBehaviour
         EventManager.SendArmed(true);
     }
 
-    void Armed(bool value)
-    {
-        b_Armed = value;
-    }
+    void Armed(bool value) => b_Armed = value;
 
     ///<summary>Returns a bool to indicate if the Gun is armed
     ///</summary>
-    public bool GetArmed()
-    {
-        return b_Armed;
-    }
+    public bool GetArmed() => b_Armed;
 
-    void ChangingPropulsion(bool b)
-    {
-        b_ChangingPropulsion = b;
-    }
+    void ChangingPropulsion(bool b) => b_ChangingPropulsion = b;
 
     ///<summary>Returns a bool to indicate if the Gun is changing propulsion mode, tracked by its animation
     ///</summary>
-    public bool GetChangingPropulsion()
-    {
-        return b_ChangingPropulsion;
-    }
+    public bool GetChangingPropulsion() => b_ChangingPropulsion;
 
-    void ReadyToFire(bool b)
-    {
-        b_ReadyToFire = b;
-    }
+    void ReadyToFire(bool b) =>  b_ReadyToFire = b;
 
     ///<summary>Returns a bool to indicate if the Gun is ready to fire
     ///</summary>
-    public bool GetReadyToFire()
-    {
-        return b_ReadyToFire;
-    }
+    public bool GetReadyToFire() => b_ReadyToFire;
 
-    void Fire()
-    {
-        StartCoroutine(FireEffectTimer());
-    }
+    void Fire() => StartCoroutine(FireEffectTimer());
 
     IEnumerator FireEffectTimer()
     {

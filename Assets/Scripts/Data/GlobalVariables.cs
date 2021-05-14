@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Global Variables", menuName = "Data/GlobalVariables", order = 1)]
 public class GlobalVariables : ScriptableObject
 {
     [Header("Cannon Variables")]

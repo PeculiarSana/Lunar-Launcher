@@ -1,0 +1,7 @@
+<WorldCreator Version="2.0">
+  <Textures Preview="preview.png" Tags="desert;sand;dry" Description="" Publisher="GameTextures" Website="https://www.gametextures.com/" Guid="4c483d40-6d10-4aa7-944f-5d50296f3efe">
+    <Diffuse File="Sand_LakesideBeachSand_col.png" Time="131898850640000000" />
+    <Normal File="Sand_LakesideBeachSand_norm.png" Time="131898853340000000" />
+    <Displacement File="" Time="132654272702468394" />
+  </Textures>
+</WorldCreator>

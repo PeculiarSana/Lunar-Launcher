@@ -13,9 +13,11 @@ public enum Destination
 {
     Mars,
     Mercury,
-    Venus
+    Venus,
+    Saturn
 }
 
+[CreateAssetMenu(fileName = "Job Data", menuName = "Data/SpawnJobData", order = 3)]
 public class JobData : ScriptableObject
 {
     public string company;

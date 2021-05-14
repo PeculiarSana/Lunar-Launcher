@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    public delegate void BasicEvent();
-    public delegate void SliderEvent(float value);
-    public delegate void ToggleEvent(bool value);
+    public delegate void Event();
+    public delegate void FloatEvent(float value);
+    public delegate void BoolEvent(bool value);
     public delegate void JobEvent(JobData job);
 
-    public static event SliderEvent Azimuth;
-    public static event SliderEvent Elevation;
-    public static event SliderEvent Velocity;
-    public static event ToggleEvent Propulsion;
-    public static event ToggleEvent ChangingPropulsion;
-    public static event ToggleEvent Arming;
-    public static event ToggleEvent Armed;
-    public static event ToggleEvent ReadyToFire;
-    public static event BasicEvent Fire;
+    public static event FloatEvent Azimuth;
+    public static event FloatEvent Elevation;
+    public static event FloatEvent Velocity;
+    public static event BoolEvent Propulsion;
+    public static event BoolEvent ChangingPropulsion;
+    public static event BoolEvent Arming;
+    public static event BoolEvent Armed;
+    public static event BoolEvent ReadyToFire;
+    public static event Event Fire;
 
     public static event JobEvent NewJob;
+    public static event BoolEvent JobResult;
 
     public static void SendAzimuth(float f)
     {
@@ -80,4 +81,10 @@ public class EventManager : MonoBehaviour
         if (NewJob != null)
             NewJob(job);
     }
+
+    public static void SendJobResult(bool b)
+    {
+        if (JobResult != null)
+            JobResult(b);
+    }    
 }

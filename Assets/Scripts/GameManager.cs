@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("References")]
     public CannonManager cannonManager;
+    public Destinations destinationsData;
 
     [Header("Job Variables")]
     public bool hasJob;
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
         if (!hasJob)
         {
             hasJob = true;
-            activeJob = jobs[Random.Range(0, jobs.Length - 1)];
+            activeJob = jobs[Random.Range(0, jobs.Length)];
             EventManager.SendNewJob(activeJob);
         }
     }

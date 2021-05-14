@@ -16,10 +16,10 @@ public class UI_JobScreen : MonoBehaviour
 
     void NewJob(JobData job)
     {
-        contents.text = job.contents;
+        contents.text = $"Contents: {job.contents}";
         type.text = job.cargoType.ToString();
-        destination.text = job.destination.ToString();
-        company.text = job.company;
+        destination.text = $"Destination: {job.destination}";
+        company.text = $"Source: {job.company}";
     }
 
     void ToggleJobScreen()

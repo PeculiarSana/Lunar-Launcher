@@ -36,31 +36,31 @@ public class D_InfoMenu : MonoBehaviour
         b_ReadyToFire = _gm.cannonManager.GetReadyToFire();
 
 
-        t_Azimuth.text = "Azimuth: " + f_Azimuth;
-        t_AzimuthTarget.text = "Target: " + f_AzimuthTarget;
-        t_Elevation.text = "Elevation: " + f_Elevation;
-        t_ElevationTarget.text = "Target: " + f_ElevationTarget;
-        t_AdjustingTarget.text = "Adjusting Target: " + _gm.cannonManager.b_AdjustingTarget;
-        t_Velocity.text = "Velocity: " + f_Velocity + "km/s";
+        t_Azimuth.text = $"Azimuth: {f_Azimuth}";
+        t_AzimuthTarget.text = $"Target: {f_AzimuthTarget}";
+        t_Elevation.text = $"Elevation: {f_Elevation}";
+        t_ElevationTarget.text = $"Target: {f_ElevationTarget}";
+        t_AdjustingTarget.text = $"Adjusting Target: {_gm.cannonManager.b_AdjustingTarget}";
+        t_Velocity.text = $"Velocity: {f_Velocity} km/s";
 
         if (b_Propulsion)
-            t_Propulsion.text = "Propulsion Mode: Magnetic" + " - Switching: " + _gm.cannonManager.GetChangingPropulsion();
+            t_Propulsion.text = $"Propulsion Mode: Magnetic - Switching: {_gm.cannonManager.GetChangingPropulsion()}";
         else
-            t_Propulsion.text = "Propulsion Mode: Light-gas" + " - Switching: " + _gm.cannonManager.GetChangingPropulsion();  
+            t_Propulsion.text = $"Propulsion Mode: Light-gas - Switching: {_gm.cannonManager.GetChangingPropulsion()}";  
 
         if (b_Armed)
-            t_ArmedStatus.text = "Arming Status: " + "Armed";
+            t_ArmedStatus.text = "Arming Status: Armed";
         else if (b_Arming)
-            t_ArmedStatus.text = "Arming Status: " + "Arming...";
+            t_ArmedStatus.text = "Arming Status: Arming...";
         else
-            t_ArmedStatus.text = "Arming Status: " + "Not Armed";
+            t_ArmedStatus.text = "Arming Status: Not Armed";
 
-        t_ReadyToFire.text = "Ready to fire: " + b_ReadyToFire;
+        t_ReadyToFire.text = $"Ready to fire: {b_ReadyToFire}";
 
         //-------------------------------------------------------
 
-        t_MousePosition.text = "Mouse Position: " + Mouse.current.position.ReadValue();
-        t_MouseTarget.text = inputManager.GetMouseTarget() != null ? "Mouse Target: " + inputManager.GetMouseTarget().name : "Mouse Target: null";
+        t_MousePosition.text = $"Mouse Position: {Mouse.current.position.ReadValue()}";
+        t_MouseTarget.text = inputManager.GetMouseTarget() != null ? $"Mouse Target: {inputManager.GetMouseTarget().name}" : "Mouse Target: null";
 
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
         float msec = deltaTime * 1000.0f;
